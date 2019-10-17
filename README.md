@@ -1,4 +1,4 @@
-# Networks_projects
+# Shortest paths on facebook data
 
 - This is a project done as part of the Networks and Markets course taught during the fall of 2019 as Cornell Tech by Dr. Rafael Pass.
 
