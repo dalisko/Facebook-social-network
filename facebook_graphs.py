@@ -17,20 +17,12 @@ import matplotlib.pyplot as plt
 from google.colab import drive
 drive.mount('/content/drive')
 
-"""#CS 5854 Homework 1 Coding Portion
-##Maxwell Wulff mcw232, Konstantinos Ntalis kn442
-"""
 
 import random
 random.seed(500)
 
-"""###8a+b)"""
-
-# include any code you need for your assignment in this file or in auxiliary
-# files that can be imported here.
 
 # given number of nodes n and probability p, output a random graph 
-# as specified in homework
 def create_graph(n,p):
     G = []
     for i in range(n):
@@ -96,7 +88,7 @@ def shortest_path(G,nbrs,i,j):
       
     return(np.flip(path), v[j,2])
 
-"""###c) Constructing a graph with $n=1000$ and $p=0.1$ and generating 1000 random pairs of nodes."""
+"""### Constructing a graph with $n=1000$ and $p=0.1$ and generating 1000 random pairs of nodes."""
 
 G = create_graph(1000, .1)
 
@@ -132,11 +124,6 @@ for [i,j] in pairs:
 avg_shortest_path = np.array(avg_shortest_path)
 np.mean(avg_shortest_path[:,2])
 
-#save to csv for submission
-asp = pd.DataFrame(avg_shortest_path, columns = ["start", "end", "dist"])
-asp.to_csv("avg_shortest_path.txt")
-
-"""###d)"""
 
 #running shortest path for the four different probability values
 n = 1000
@@ -180,58 +167,15 @@ for i in range(4):
   print(np.mean(np.array(lengths[i])[:,2]))
 
 
-#same process for the second range of probabilities
-n = 1000
-lengths = []
-for p in np.arange(0.05,0.55,0.05):
-  G = create_graph(n,p)
-  
-  nbrs = []
 
-  for i in range(1000):
-    nbrs.append(neighbors(G,i))
-  
-  l = []
-  for [i,j] in pairs:
-    pa, d = shortest_path(G,nbrs,i,j)
-    l.append([i,j,d])
-    
-  lengths.append(l)
-
-vary_p['p=0.05'] = np.array(lengths[0])[:,2]
-vary_p['p=0.10'] = np.array(lengths[1])[:,2]
-vary_p['p=0.15'] = np.array(lengths[2])[:,2]
-vary_p['p=0.20'] = np.array(lengths[3])[:,2]
-vary_p['p=0.25'] = np.array(lengths[4])[:,2]
-vary_p['p=0.30'] = np.array(lengths[5])[:,2]
-vary_p['p=0.35'] = np.array(lengths[6])[:,2]
-vary_p['p=0.40'] = np.array(lengths[7])[:,2]
-vary_p['p=0.45'] = np.array(lengths[8])[:,2]
-vary_p['p=0.50'] = np.array(lengths[9])[:,2]
-
-vary_p.to_csv("varying_p.txt")
-
-dist = []
-p = np.arange(0.05,0.55,0.05)
-
-for i in range(10):
-  dist.append(np.mean(np.array(lengths[i])[:,2]))
-
-plt.title("Varying P vetween .05 and .50 by .05")
-plt.xlabel("P")
-plt.ylabel("Avg Distance")  
-plt.plot(p,dist, marker = 'o')
-
-
-
-"""###9)"""
+"""### Using the facebook data """
 
 facebook_data = pd.read_csv("/content/drive/My Drive/Networks_datasets/facebook_combined.csv", header = None)
 facebook_data = facebook_data.to_numpy()
 
 facebook_data = [facebook_data, 4039]
 
-###a) Repeating the same analysis as in 8c
+###a) Repeating the same analysis as above
 
 #generating 1000 random pairs
 pairs = []
@@ -256,15 +200,13 @@ for [i,j] in pairs:
   p, d = shortest_path(facebook_data,nbrs,i,j)
   avg_shortest_path.append([i,j,d])
 
-asp = pd.DataFrame(avg_shortest_path, columns = ["start", "end", "dist"])
-asp.to_csv("fb_shortest_path.txt")
 
 avg_shortest_path = np.array(avg_shortest_path)
 np.mean(avg_shortest_path[:,2])
 
 
 
-"""###b) Estimating $p$"""
+"""### Estimating the probability that two nodes are connected """
 
 fb_data = pd.DataFrame(facebook_data[0])
 fb_data.columns = ('Node0','Node1')
@@ -272,7 +214,7 @@ probs_groupby = fb_data.groupby(['Node0'])['Node1'].count()/4039
 p_conn = 2 * probs_groupby.sum()/4039
 
 
-###c) Repeat the process for a random graph with p given from above.
+#Repeat the process for a random graph with p given from above.
 
 G = create_graph(4039, p_conn)
 
