@@ -168,7 +168,7 @@ for i in range(4):
 
 
 
-"""### Using the facebook data """
+"""### Using the facebook data instead of a random graph """
 
 facebook_data = pd.read_csv("/content/drive/My Drive/Networks_datasets/facebook_combined.csv", header = None)
 facebook_data = facebook_data.to_numpy()
